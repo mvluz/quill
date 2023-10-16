@@ -5,29 +5,26 @@ import {
   DialogTrigger,
 } from './ui/dialog'
 import { Button } from './ui/button'
-
 import Dropzone from 'react-dropzone'
 import { Cloud, File, Loader2 } from 'lucide-react'
 import { Progress } from './ui/progress'
-/* import { useUploadThing } from '@/lib/uploadthing'
-import { useToast } from './ui/use-toast' */
+import { useUploadThing } from '@/lib/uploadthing'
+import { useToast } from './ui/use-toast'
 import { trpc } from '@/app/_trpc/client'
 import { useRouter } from 'next/navigation'
 
-const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
+const UploadDropzone = ({ isSubscribed, }: { isSubscribed: boolean }) => {
   const router = useRouter()
 
   const [isUploading, setIsUploading] =
     useState<boolean>(false)
   const [uploadProgress, setUploadProgress] =
     useState<number>(0)
-/*   const { toast } = useToast()
+  const { toast } = useToast()
 
-  const { startUpload } = useUploadThing(
-    isSubscribed ? 'proPlanUploader' : 'freePlanUploader'
-  ) */
+  const { startUpload } = useUploadThing("pdfUploader")
 
-/*   const { mutate: startPolling } = trpc.getFile.useMutation(
+  const { mutate: startPolling } = trpc.getFile.useMutation(
     {
       onSuccess: (file) => {
         router.push(`/dashboard/${file.id}`)
@@ -35,7 +32,7 @@ const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
       retry: true,
       retryDelay: 500,
     }
-  ) */
+  )
 
   const startSimulatedProgress = () => {
     setUploadProgress(0)
@@ -64,7 +61,7 @@ const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
         const progressInterval = startSimulatedProgress()
 
         // handle file uploading
-/*         const res = await startUpload(acceptedFile)
+        const res = await startUpload(acceptedFile)
 
         if (!res) {
           return toast({
@@ -72,9 +69,9 @@ const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
             description: 'Please try again later',
             variant: 'destructive',
           })
-        } */
+        }
 
-/*         const [fileResponse] = res
+        const [fileResponse] = res
 
         const key = fileResponse?.key
 
@@ -84,12 +81,12 @@ const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
             description: 'Please try again later',
             variant: 'destructive',
           })
-        } */
+        }
 
-/*         clearInterval(progressInterval)
+        clearInterval(progressInterval)
         setUploadProgress(100)
 
-        startPolling({ key }) */
+        startPolling({ key })
       }}>
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div
@@ -156,24 +153,24 @@ const UploadDropzone = ({isSubscribed,}: {isSubscribed: boolean}) => {
     </Dropzone>
   )
 }
-const UploadButton = ({isSubscribed, }: {isSubscribed: boolean }) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false)
+const UploadButton = ({ isSubscribed, }: { isSubscribed: boolean }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    return (
-        <Dialog open={isOpen} onOpenChange={(visible) => {
-            if (!visible) {
-                setIsOpen(visible)
-            }
-        }}>
-            <DialogTrigger asChild onClick={() => setIsOpen(true)}>
-                <Button>Upload PDF</Button>
-            </DialogTrigger>
+  return (
+    <Dialog open={isOpen} onOpenChange={(visible) => {
+      if (!visible) {
+        setIsOpen(visible)
+      }
+    }}>
+      <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+        <Button>Upload PDF</Button>
+      </DialogTrigger>
 
-            <DialogContent>
-                <UploadDropzone isSubscribed={isSubscribed} />
-            </DialogContent>
-        </Dialog>
-    )
+      <DialogContent>
+        <UploadDropzone isSubscribed={isSubscribed} />
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 export default UploadButton
